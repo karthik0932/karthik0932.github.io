@@ -1,1 +1,179 @@
-<h1>Hola Amigo, I'm karthik!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Karthik S - Software Engineer Portfolio">
+    <title>Karthik S | Software Engineer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <header :class="{ scrolled: isScrolled }">
+            <nav class="container">
+                <div class="logo">
+                    <span class="logo-icon">{ KS }</span>
+                    <span class="logo-text">Karthik S</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#about" @click="scrollTo('about')">About</a></li>
+                    <li><a href="#skills" @click="scrollTo('skills')">Skills</a></li>
+                    <li><a href="#experience" @click="scrollTo('experience')">Experience</a></li>
+                    <li><a href="#projects" @click="scrollTo('projects')">Projects</a></li>
+                    <li><a href="#education" @click="scrollTo('education')">Education</a></li>
+                    <li><a href="#contact" @click="scrollTo('contact')">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn" @click="toggleMobileMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </header>
+
+        <section id="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <p class="tech-quote fade-in">"Code is like humor. When you have to explain it, it's bad."</p>
+                    <h1 class="fade-in-delay-1">Hi, I'm <span class="highlight">KARTHIK S</span></h1>
+                    <h2 class="fade-in-delay-2">Software Engineer | Full-Stack Developer</h2>
+                    <p class="fade-in-delay-3">Building scalable applications with .NET, Django, and Vue.js</p>
+                    <div class="cta-buttons fade-in-delay-4">
+                        <a href="#contact" class="btn btn-primary">
+                            <i class="fas fa-envelope"></i> Get In Touch
+                        </a>
+                        <a href="#projects" class="btn btn-secondary">
+                            <i class="fas fa-code"></i> View Projects
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <p>Full-Stack Developer with <strong>3.5 years</strong> of IT experience designing and delivering scalable, production-grade applications across the full stack. Proficient in <strong>.NET</strong>, <strong>Django REST Framework</strong>, and <strong>Vue.js</strong>, with hands-on expertise in building secure REST APIs, dynamic frontend interfaces, and intelligent automation workflows. Experienced in integrating <strong>LLM-based</strong> configuration tools using <strong>OpenAI</strong> and <strong>Azure GPT</strong>, containerizing applications with <strong>Docker</strong>, and managing CI/CD pipelines via <strong>GitHub Actions</strong>. Passionate about clean architecture, developer productivity, and delivering impactful software solutions.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title">Skills & Technologies</h2>
+                <div class="skills-grid">
+                    <div v-for="skill in skills" :key="skill.title" class="skill-card" :style="{ borderColor: skill.color }">
+                        <div class="skill-icon" :style="{ background: skill.color }">
+                            <i :class="skill.icon"></i>
+                        </div>
+                        <h3>{{ skill.title }}</h3>
+                        <p>{{ skill.tech }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="container">
+                <h2 class="section-title">Work Experience</h2>
+                <div class="timeline">
+                    <div v-for="(exp, index) in experiences" :key="index" class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>{{ exp.title }}</h3>
+                            <p class="company">{{ exp.company }}</p>
+                            <p class="date"><i class="fas fa-calendar"></i> {{ exp.date }}</p>
+                            <ul>
+                                <li v-for="(point, i) in exp.points" :key="i">{{ point }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title">Projects</h2>
+                <div class="projects-grid">
+                    <div v-for="(project, index) in projects" :key="index" class="project-card" @click="toggleProject(index)">
+                        <div class="project-header">
+                            <div>
+                                <h3>{{ project.title }}</h3>
+                                <p class="project-company"><i class="fas fa-building"></i> {{ project.company }}</p>
+                            </div>
+                            <i class="fas" :class="expandedProject === index ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                        </div>
+                        <p class="project-summary">{{ project.summary }}</p>
+                        <transition name="expand">
+                            <div v-if="expandedProject === index" class="project-details">
+                                <ul>
+                                    <li v-for="(detail, i) in project.details" :key="i">{{ detail }}</li>
+                                </ul>
+                            </div>
+                        </transition>
+                        <div class="tech-tags">
+                            <span v-for="tech in project.tech" :key="tech">{{ tech }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <div class="container">
+                <h2 class="section-title">Education</h2>
+                <div class="education-card">
+                    <div class="edu-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="edu-content">
+                        <h3>Bachelor of Engineering (Computer Science)</h3>
+                        <p class="institution">Alva's Institute of Engineering and Technology</p>
+                        <p class="edu-details">
+                            <span><i class="fas fa-calendar"></i> 2022</span>
+                            <span><i class="fas fa-university"></i> VTU</span>
+                            <span><i class="fas fa-star"></i> CGPA: 7.4</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="contact-subtitle">Let's connect and build something amazing together!</p>
+                <div class="contact-grid">
+                    <a href="mailto:karthiks9066@gmail.com" class="contact-card email-card">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email</h3>
+                        <p>karthiks9066@gmail.com</p>
+                    </a>
+                    <a href="https://github.com/karthik0932" target="_blank" class="contact-card github-card">
+                        <i class="fab fa-github"></i>
+                        <h3>GitHub</h3>
+                        <p>@karthik0932</p>
+                    </a>
+                    <a href="https://www.linkedin.com/in/karthik-shivanna/" target="_blank" class="contact-card linkedin-card">
+                        <i class="fab fa-linkedin"></i>
+                        <h3>LinkedIn</h3>
+                        <p>karthik-shivanna</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Karthik S. Full-Stack Developer | Software Engineer</p>
+            <p>Built with <i class="fas fa-heart"></i> using Vue.js</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
